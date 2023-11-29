@@ -1,9 +1,13 @@
 import 'dart:io';
 import 'package:image/image.dart';
 
-Future<File> cropImage({
+enum ConvertType{
+  jpg,png,
+}
+Future<File> cropImageAndConvert({
   required File file,
   required double aspectRatio,
+  ConvertType? convertType = ConvertType.jpg,
 }) async {
   final bytes = file.readAsBytesSync();
   Image? image = decodeImage(bytes);
@@ -14,5 +18,9 @@ Future<File> cropImage({
   final x = (extraWidth / 2).floor();
   final y = ((image.height / 2) - height / 2).floor();
   var thumbnail = copyCrop(image, x: x,y: y,width: width.ceil(),height: height.ceil(),);
-  return file.writeAsBytes(encodePng(thumbnail));
+  if(convertType == ConvertType.jpg){
+    return file.writeAsBytes(encodeJpg(thumbnail));
+  }else{
+    return file.writeAsBytes(encodePng(thumbnail));
+  }
 }

@@ -12,7 +12,7 @@ Future<XFile?> takeFaceVideoOnDialog(BuildContext context, {Widget? scanWidget})
         height: double.maxFinite,
         width: double.maxFinite,
         child: Camera(
-          cameraDirection: CameraLensDirection.front,
+          // cameraDirection: CameraLensDirection.front,
           filterBuilder: (context, controller) {
             return Stack(
               children: [
@@ -60,7 +60,7 @@ Future<XFile?> takeFacePictureOnDialog(BuildContext context,{Widget? scanWidget}
         height: double.maxFinite,
         width: double.maxFinite,
         child: Camera(
-          cameraDirection: CameraLensDirection.front,
+          // cameraDirection: CameraLensDirection.front,
           filterBuilder: (context, controller) {
             return Stack(
               children: [
@@ -104,7 +104,7 @@ Future<XFile?> takeCardPictureOnDialog(BuildContext context,{Widget? scanWidget}
         height: double.maxFinite,
         width: double.maxFinite,
         child: Camera(
-          cameraDirection: CameraLensDirection.back,
+          // cameraDirection: CameraLensDirection.back,
           filterBuilder: (context, controller) {
             return Stack(
               children: [
@@ -148,7 +148,7 @@ Future<XFile?> takeDocumentPictureOnDialog(BuildContext context,{Widget? scanWid
         height: double.maxFinite,
         width: double.maxFinite,
         child: Camera(
-          cameraDirection: CameraLensDirection.back,
+          // cameraDirection: CameraLensDirection.back,
           filterBuilder: (context, controller) {
             return Stack(
               children: [
