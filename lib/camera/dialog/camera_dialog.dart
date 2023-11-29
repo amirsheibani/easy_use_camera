@@ -68,13 +68,7 @@ Future<XFile?> takeFacePictureOnDialog(BuildContext context,{Widget? scanWidget}
                   onCapture: () async {
                     final result = await controller.takePicture();
                     if (context.mounted) {
-                      await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => PicturePreview(
-                            imagePath: result.path,
-                          ),
-                        ),
-                      );
+                      Navigator.of(context).pop(result);
                     }
                   },
                   onChangeCamera: () {
@@ -118,13 +112,7 @@ Future<XFile?> takeCardPictureOnDialog(BuildContext context,{Widget? scanWidget}
                   onCapture: () async {
                     final result = await controller.takePicture();
                     if (context.mounted) {
-                      await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => PicturePreview(
-                            imagePath: result.path,
-                          ),
-                        ),
-                      );
+                      Navigator.of(context).pop(result);
                     }
                   },
                   onChangeCamera: () {
@@ -168,13 +156,7 @@ Future<XFile?> takeDocumentPictureOnDialog(BuildContext context,{Widget? scanWid
                   onCapture: () async {
                     final result = await controller.takePicture();
                     if (context.mounted) {
-                      await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => PicturePreview(
-                            imagePath: result.path,
-                          ),
-                        ),
-                      );
+                      Navigator.of(context).pop(result);
                     }
                   },
                   onChangeCamera: () {
