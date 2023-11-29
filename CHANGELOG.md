@@ -9,3 +9,7 @@
 ## 0.0.7
 
 * Add Tools (crop,...).
+
+## 0.0.7+1
+
+* Change encode image.
