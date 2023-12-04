@@ -21,3 +21,7 @@
 ## 0.0.8
 
 * Add video/image preview & add some tools.
+
+## 0.0.8+2
+
+* BugFix.
