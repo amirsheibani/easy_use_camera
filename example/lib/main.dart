@@ -54,6 +54,11 @@ class MyHomePage extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => PreviewVideo(
                       file: result,
+                      topFaceBuilder: (context){
+                        return Center(
+                          child: Text("Hello"),
+                        );
+                      },
                     ),
                   ),
                 );
