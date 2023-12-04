@@ -49,11 +49,11 @@ class MyHomePage extends StatelessWidget {
                   child: Text('PLS '),
                 ),
               );
-              if (context.mounted) {
+              if (context.mounted && result != null) {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => PreviewVideo(
-                      file: result!,
+                      file: result,
                     ),
                   ),
                 );
