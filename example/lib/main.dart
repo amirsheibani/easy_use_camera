@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:easy_use_camera/easy_use_camera.dart';
 
@@ -53,6 +53,7 @@ class MyHomePage extends StatelessWidget {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => PreviewVideo(
+                      rotateAngle: 0,
                       file: result,
                       topFaceBuilder: (context){
                         return Center(
