@@ -1,13 +1,11 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Camera extends StatelessWidget {
-  const Camera({super.key, required this.filterBuilder, this.cameraDirection});
+  const Camera({super.key, required this.filterBuilder, this.cameraDirection, this.resolutionPreset = ResolutionPreset.medium});
 
   final CameraLensDirection? cameraDirection;
+  final ResolutionPreset? resolutionPreset;
   final Widget Function(BuildContext context, CameraController cameraController) filterBuilder;
 
   @override
@@ -23,6 +21,7 @@ class Camera extends StatelessWidget {
                 cameras: snapShot.data!,
                 filterBuilder: filterBuilder,
                 cameraDirection: cameraDirection,
+                resolutionPreset: resolutionPreset,
               );
             } else {
               return Container(
@@ -47,12 +46,13 @@ class Camera extends StatelessWidget {
 }
 
 class TakePicture extends StatefulWidget {
-  const TakePicture({super.key, required this.cameras, required this.filterBuilder, this.cameraDirection});
+  const TakePicture({super.key, required this.cameras, required this.filterBuilder, this.cameraDirection, required this.resolutionPreset});
 
   final Widget Function(BuildContext context, CameraController cameraController) filterBuilder;
 
   final List<CameraDescription> cameras;
   final CameraLensDirection? cameraDirection;
+  final ResolutionPreset? resolutionPreset;
 
   @override
   State<TakePicture> createState() => TakePictureState();
@@ -66,10 +66,13 @@ class TakePictureState extends State<TakePicture> {
 
   @override
   void initState() {
-    if(widget.cameraDirection == null){
+    if (widget.cameraDirection == null) {
       _cameraIndex = 0;
-    }else{
+    } else {
       _cameraIndex = widget.cameras.indexWhere((element) => element.lensDirection == widget.cameraDirection);
+      if (_cameraIndex < 0) {
+        _cameraIndex = 0;
+      }
     }
     _currentCamera = widget.cameras[_cameraIndex];
     _controller = CameraController(
@@ -119,16 +122,5 @@ class TakePictureState extends State<TakePicture> {
         }
       },
     );
-  }
-}
-
-class PicturePreview extends StatelessWidget {
-  const PicturePreview({super.key, required this.imagePath});
-
-  final String imagePath;
-
-  @override
-  Widget build(BuildContext context) {
-    return (kIsWeb) ? Image.network(imagePath) : Image.file(File(imagePath));
   }
 }

@@ -12,7 +12,7 @@ Future<XFile?> takeFaceVideoOnDialog(BuildContext context, {Widget? scanWidget})
         height: double.maxFinite,
         width: double.maxFinite,
         child: Camera(
-          // cameraDirection: CameraLensDirection.front,
+          cameraDirection: CameraLensDirection.front,
           filterBuilder: (context, controller) {
             return Stack(
               children: [
@@ -21,7 +21,7 @@ Future<XFile?> takeFaceVideoOnDialog(BuildContext context, {Widget? scanWidget})
                   onRecordStop: () async {
                     final result = await controller.stopVideoRecording();
                     if (context.mounted) {
-                      Navigator.of(context).pop(result);
+                       Navigator.of(context).pop(result);
                     }
                   },
                   onRecord: () async {

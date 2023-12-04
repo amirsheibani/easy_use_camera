@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_use_camera/easy_use_camera.dart';
 
@@ -48,7 +49,15 @@ class MyHomePage extends StatelessWidget {
                   child: Text('PLS '),
                 ),
               );
-              recordResult = File(result!.path);
+              if (context.mounted) {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => PreviewVideo(
+                      file: result!,
+                    ),
+                  ),
+                );
+              }
             },
             child: const Text('take video'),
           ),
