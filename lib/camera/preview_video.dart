@@ -4,12 +4,13 @@ import 'package:video_player/video_player.dart';
 import '../easy_use_camera.dart';
 
 class PreviewVideo extends StatefulWidget {
-  const PreviewVideo({super.key, required this.file, this.errorBuilder, this.loadingBuilder, this.faceBuilder});
+  const PreviewVideo({super.key, required this.file, this.errorBuilder, this.loadingBuilder, this.videoControllerBuilder, this.topFaceBuilder});
 
   final XFile file;
   final Widget Function(BuildContext context)? errorBuilder;
   final Widget Function(BuildContext context)? loadingBuilder;
-  final Widget Function(BuildContext context, VideoPlayerController controller)? faceBuilder;
+  final Widget Function(BuildContext context)? topFaceBuilder;
+  final Widget Function(BuildContext context, VideoPlayerController controller)? videoControllerBuilder;
 
   @override
   State<PreviewVideo> createState() => _PreviewVideoState();
@@ -36,7 +37,7 @@ class _PreviewVideoState extends State<PreviewVideo> {
                       child: Stack(
                         children: [
                           VideoPlayer(_controller),
-                          if (widget.faceBuilder != null) widget.faceBuilder!(context, _controller),
+                          if (widget.videoControllerBuilder != null) widget.videoControllerBuilder!(context, _controller),
                         ],
                       ),
                     );
