@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:ffmpeg_wasm/ffmpeg_wasm.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image/image.dart';
 
@@ -77,13 +79,78 @@ extension OnXFIle on XFile {
       width = minWidth;
       height = minHeight;
     }
-    final result = await FlutterImageCompress.compressWithList(
-      bytes,
-      minHeight: height,
-      minWidth: width,
-      quality: quality,
-      rotate: rotate,
-    );
-    return XFile.fromData(result);
+    if(kIsWeb){
+      FFmpeg? ffmpeg;
+      try {
+        ffmpeg = createFFmpeg(CreateFFmpegParam(log: true));
+        ffmpeg.setLogger(_onLogHandler);
+        ffmpeg.setProgress(_onProgressHandler);
+
+        // Check ffmpeg.isLoaded() before ffmpeg.load() if you are reusing the same instance
+        if (!ffmpeg.isLoaded()) {
+          await ffmpeg.load();
+        }
+
+        const inputFile = 'input.mp4';
+        const outputFile = 'output.mp4';
+
+        ffmpeg.writeFile(inputFile, bytes);
+
+        // Equals to: await ffmpeg.run(['-i', inputFile, '-s', '1920x1080', outputFile]);
+        await ffmpeg.runCommand('-i $inputFile -s 1920x1080 $outputFile');
+
+        final data = ffmpeg.readFile(outputFile);
+        return XFile.fromData(data);
+      } finally {
+        // Do not call exit if you want to reuse same ffmpeg instance
+        // When you call exit the temporary files are deleted from MEMFS
+        // If you are working with multiple inputs you can free any of the via: ffmpeg.unlink('my_input.mp4')
+        ffmpeg?.exit();
+      }
+    }else{
+      final result = await FlutterImageCompress.compressWithList(
+        bytes,
+        minHeight: height,
+        minWidth: width,
+        quality: quality,
+        rotate: rotate,
+      );
+      return XFile.fromData(result);
+    }
+  }
+
+  void _onProgressHandler(ProgressParam progress) {
+    print('Progress: ${progress.ratio * 100}%');
+  }
+
+  static final regex = RegExp(
+    r'frame\s*=\s*(\d+)\s+fps\s*=\s*(\d+(?:\.\d+)?)\s+q\s*=\s*([\d.-]+)\s+L?size\s*=\s*(\d+)\w*\s+time\s*=\s*([\d:\.]+)\s+bitrate\s*=\s*([\d.]+)\s*(\w+)/s\s+speed\s*=\s*([\d.]+)x',
+  );
+
+  void _onLogHandler(LoggerParam logger) {
+    if (logger.type == 'fferr') {
+      final match = regex.firstMatch(logger.message);
+
+      if (match != null) {
+        // indicates the number of frames that have been processed so far.
+        final frame = match.group(1);
+        // is the current frame rate
+        final fps = match.group(2);
+        // stands for quality 0.0 indicating lossless compression, other values indicating that there is some lossy compression happening
+        final q = match.group(3);
+        // indicates the size of the output file so far
+        final size = match.group(4);
+        // is the time that has elapsed since the beginning of the conversion
+        final time = match.group(5);
+        // is the current output bitrate
+        final bitrate = match.group(6);
+        // for instance: 'kbits/s'
+        final bitrateUnit = match.group(7);
+        // is the speed at which the conversion is happening, relative to real-time
+        final speed = match.group(8);
+
+        debugPrint('frame: $frame, fps: $fps, q: $q, size: $size, time: $time, bitrate: $bitrate$bitrateUnit, speed: $speed');
+      }
+    }
   }
 }

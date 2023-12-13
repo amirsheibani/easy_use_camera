@@ -32,8 +32,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    File? recordResult;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -45,6 +43,8 @@ class MyHomePage extends StatelessWidget {
             onPressed: () async {
               final result = await takeFaceVideoOnDialog(
                 context,
+                direction: CameraLensDirection.front,
+                resolutionPreset: ResolutionPreset.low,
                 scanWidget: const Center(
                   child: Text('PLS '),
                 ),
@@ -53,7 +53,7 @@ class MyHomePage extends StatelessWidget {
                 await Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => PreviewVideo(
-                      rotateAngle: 0,
+                      rotateAngle: math.pi /2,
                       file: result,
                       topFaceBuilder: (context){
                         return Center(
@@ -65,26 +65,26 @@ class MyHomePage extends StatelessWidget {
                 );
               }
             },
-            child: const Text('take video'),
+            child: Text('take video',style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.black),),
           ),
           ElevatedButton(
             onPressed: () async {
               final result = await takeFacePictureOnDialog(context);
-              recordResult = File(result!.path);
+               File(result!.path);
             },
             child: const Text('take picture'),
           ),
           ElevatedButton(
             onPressed: () async {
               final result = await takeCardPictureOnDialog(context);
-              recordResult = File(result!.path);
+               File(result!.path);
             },
             child: const Text('take card picture'),
           ),
           ElevatedButton(
             onPressed: () async {
               final result = await takeDocumentPictureOnDialog(context);
-              recordResult = File(result!.path);
+              File(result!.path);
             },
             child: const Text('take document picture'),
           ),

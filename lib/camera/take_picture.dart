@@ -46,13 +46,14 @@ class Camera extends StatelessWidget {
 }
 
 class TakePicture extends StatefulWidget {
-  const TakePicture({super.key, required this.cameras, required this.filterBuilder, this.cameraDirection, required this.resolutionPreset});
+  const TakePicture({super.key, required this.cameras, required this.filterBuilder, this.cameraDirection, required this.resolutionPreset, this.enableAudio});
 
   final Widget Function(BuildContext context, CameraController cameraController) filterBuilder;
 
   final List<CameraDescription> cameras;
   final CameraLensDirection? cameraDirection;
   final ResolutionPreset? resolutionPreset;
+  final bool? enableAudio;
 
   @override
   State<TakePicture> createState() => TakePictureState();
@@ -63,6 +64,7 @@ class TakePictureState extends State<TakePicture> {
   late Future<void>? _initializeControllerFuture;
   late int _cameraIndex;
   late CameraDescription _currentCamera;
+
 
   @override
   void initState() {
@@ -78,6 +80,7 @@ class TakePictureState extends State<TakePicture> {
     _controller = CameraController(
       _currentCamera,
       ResolutionPreset.medium,
+      enableAudio: widget.enableAudio ?? true,
     );
     _initializeControllerFuture = _controller.initialize();
     super.initState();
@@ -107,20 +110,24 @@ class TakePictureState extends State<TakePicture> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initializeControllerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Stack(
-            children: [
-              Center(child: CameraPreview(_controller)),
-              widget.filterBuilder(context, _controller),
-            ],
-          );
-        } else {
-          return const Center(child: CircularProgressIndicator());
-        }
-      },
+    return LayoutBuilder(
+      builder: (context,constraints) {
+        return FutureBuilder(
+          future: _initializeControllerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Stack(
+                children: [
+                  Center(child: AspectRatio(aspectRatio:MediaQuery.of(context).size.aspectRatio,child: CameraPreview(_controller))),
+                  widget.filterBuilder(context, _controller),
+                ],
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        );
+      }
     );
   }
 }
