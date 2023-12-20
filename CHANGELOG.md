@@ -29,3 +29,7 @@
 ## 0.0.8+5
 
 * Add rotate video player.
+
+## 0.0.10
+
+* BugFix.

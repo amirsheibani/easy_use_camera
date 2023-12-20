@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:easy_use_camera/camera/widget/flash_widget.dart';
 import 'package:easy_use_camera/camera/widget/zoom_widget.dart';
 
+import 'back_widget.dart';
+
 class ScanDocument extends StatelessWidget {
-  const ScanDocument({super.key, required this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel});
+  const ScanDocument({super.key, required this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel, this.backTap});
 
   final VoidCallback onCapture;
   final VoidCallback onChangeCamera;
   final ValueChanged<FlashMode> onFlash;
   final ValueChanged<double> onZoom;
+  final VoidCallback? backTap;
   final double? zoomLevel;
 
 
@@ -24,18 +27,31 @@ class ScanDocument extends StatelessWidget {
           width: double.maxFinite,
           color: Colors.transparent,
           child: kIsWeb
-              ? const SizedBox()
+              ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                width: 16,
+              ),
+              BackWidget(
+                onTap: backTap,
+              ),
+            ],
+          )
               : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
                 width: 16,
               ),
+              BackWidget(
+                onTap: backTap,
+              ),
+              const Spacer(),
               FlashCameraWidget(
                 flashStatus: FlashMode.off,
                 onChangeFlash: onFlash,
               ),
-              const Spacer(),
               ZoomCameraWidget(
                 zoomInt: zoomLevel ?? 0.0,
                 onChangeZoom: onZoom,

@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Camera extends StatelessWidget {
@@ -71,9 +72,15 @@ class TakePictureState extends State<TakePicture> {
     if (widget.cameraDirection == null) {
       _cameraIndex = 0;
     } else {
-      _cameraIndex = widget.cameras.indexWhere((element) => element.lensDirection == widget.cameraDirection);
-      if (_cameraIndex < 0) {
-        _cameraIndex = 0;
+      if(widget.cameras.any((camera) => camera.lensDirection == widget.cameraDirection && camera.sensorOrientation == 90)){
+        _cameraIndex = widget.cameras.indexOf(widget.cameras.firstWhere((element) => element.lensDirection == widget.cameraDirection && element.sensorOrientation == 90));
+      }else{
+        final result = widget.cameras.where((element) => element.lensDirection == widget.cameraDirection).toList();
+        if(result.isEmpty){
+          _cameraIndex = 0;
+        }else{
+          _cameraIndex = widget.cameras.indexOf(result.first);
+        }
       }
     }
     _currentCamera = widget.cameras[_cameraIndex];
@@ -118,7 +125,10 @@ class TakePictureState extends State<TakePicture> {
             if (snapshot.connectionState == ConnectionState.done) {
               return Stack(
                 children: [
-                  Center(child: AspectRatio(aspectRatio:MediaQuery.of(context).size.aspectRatio,child: CameraPreview(_controller))),
+                  if(kIsWeb)
+                  Center(child: AspectRatio(aspectRatio:MediaQuery.of(context).size.aspectRatio,child: CameraPreview(_controller)))
+                  else
+                    Center(child: CameraPreview(_controller)),
                   widget.filterBuilder(context, _controller),
                 ],
               );

@@ -4,31 +4,49 @@ import 'package:flutter/material.dart';
 import 'package:easy_use_camera/camera/widget/flash_widget.dart';
 import 'package:easy_use_camera/camera/widget/zoom_widget.dart';
 
+import 'back_widget.dart';
+
 class ScanCard extends StatelessWidget {
-  const ScanCard({super.key, required this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel});
+  const ScanCard({super.key, required this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel, this.backTap});
 
   final VoidCallback onCapture;
   final VoidCallback onChangeCamera;
   final ValueChanged<FlashMode> onFlash;
   final ValueChanged<double> onZoom;
+  final VoidCallback? backTap;
   final double? zoomLevel;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 24,),
+        const SizedBox(
+          height: 24,
+        ),
         Container(
           height: 48,
           width: double.maxFinite,
           color: Colors.transparent,
           child: kIsWeb
-              ? const SizedBox()
-              : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(
                       width: 16,
+                    ),
+                    BackWidget(
+                      onTap: backTap,
+                    ),
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    BackWidget(
+                      onTap: backTap,
                     ),
                     FlashCameraWidget(
                       flashStatus: FlashMode.off,

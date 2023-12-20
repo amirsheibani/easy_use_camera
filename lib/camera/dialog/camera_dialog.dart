@@ -25,6 +25,9 @@ Future<XFile?> takeFaceVideoOnDialog(BuildContext context, {Widget? scanWidget,C
                        Navigator.of(context).pop(result);
                     }
                   },
+                  backTap: (){
+                    Navigator.pop(context);
+                  },
                   onRecord: () async {
                     await controller.startVideoRecording();
                   },
@@ -73,6 +76,9 @@ Future<XFile?> takeFacePictureOnDialog(BuildContext context,{Widget? scanWidget,
                       Navigator.of(context).pop(result);
                     }
                   },
+                  backTap: (){
+                    Navigator.pop(context);
+                  },
                   onChangeCamera: () {
                     final TakePictureState? state = context.findAncestorStateOfType<TakePictureState>();
                     if (state != null) {
@@ -118,6 +124,9 @@ Future<XFile?> takeCardPictureOnDialog(BuildContext context,{Widget? scanWidget,
                       Navigator.of(context).pop(result);
                     }
                   },
+                  backTap: (){
+                    Navigator.pop(context);
+                  },
                   onChangeCamera: () {
                     final TakePictureState? state = context.findAncestorStateOfType<TakePictureState>();
                     if (state != null) {
@@ -162,6 +171,9 @@ Future<XFile?> takeDocumentPictureOnDialog(BuildContext context,{Widget? scanWid
                     if (context.mounted) {
                       Navigator.of(context).pop(result);
                     }
+                  },
+                  backTap: (){
+                    Navigator.pop(context);
                   },
                   onChangeCamera: () {
                     final TakePictureState? state = context.findAncestorStateOfType<TakePictureState>();

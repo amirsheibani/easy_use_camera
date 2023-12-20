@@ -7,10 +7,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_use_camera/camera/widget/flash_widget.dart';
 import 'package:easy_use_camera/camera/widget/zoom_widget.dart';
 
+import 'back_widget.dart';
+
 enum ScanFaceType { record, capture }
 
 class ScanFace extends StatelessWidget {
-  const ScanFace({super.key, this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel, this.onRecord, this.type = ScanFaceType.capture, this.onRecordStop});
+  const ScanFace({super.key, this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel, this.onRecord, this.type = ScanFaceType.capture, this.onRecordStop, this.backTap});
 
   final ScanFaceType type;
   final VoidCallback? onCapture;
@@ -19,6 +21,7 @@ class ScanFace extends StatelessWidget {
   final VoidCallback onChangeCamera;
   final ValueChanged<FlashMode> onFlash;
   final ValueChanged<double> onZoom;
+  final VoidCallback? backTap;
   final double? zoomLevel;
 
   @override
@@ -43,18 +46,35 @@ class ScanFace extends StatelessWidget {
           width: double.maxFinite,
           color: Colors.transparent,
           child: kIsWeb
-              ? const SizedBox()
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    BackWidget(
+                      onTap: backTap,
+                    ),
+                    const Spacer(),
+                  ],
+                )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(
                       width: 16,
                     ),
+                    BackWidget(
+                      onTap: backTap,
+                    ),
+                    const Spacer(),
                     FlashCameraWidget(
                       flashStatus: FlashMode.off,
                       onChangeFlash: onFlash,
                     ),
-                    const Spacer(),
+                    const SizedBox(
+                      width: 16,
+                    ),
                     ZoomCameraWidget(
                       zoomInt: zoomLevel ?? 0.0,
                       onChangeZoom: onZoom,
