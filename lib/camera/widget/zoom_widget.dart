@@ -24,6 +24,6 @@ class _ZoomCameraWidgetState extends State<ZoomCameraWidget> {
         }
         widget.onChangeZoom(zoomLevel);
       });
-    }, icon: const Icon(Icons.zoom_in,color: Colors.white,size: 32,));
+    }, icon: Icon(zoomLevel == 4.0 ? Icons.zoom_in_map_sharp : Icons.zoom_in,color: Colors.white,size: 32,));
   }
 }

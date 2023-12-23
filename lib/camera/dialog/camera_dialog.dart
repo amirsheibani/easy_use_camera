@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../easy_use_camera.dart';
 
-Future<XFile?> takeFaceVideoOnDialog(BuildContext context, {Widget? scanWidget,CameraLensDirection? direction,ResolutionPreset? resolutionPreset}){
+Future<XFile?> takeFaceVideoOnDialog(BuildContext context, {Widget? scanWidget,CameraLensDirection? direction,ResolutionPreset? resolutionPreset,bool changeCamera = true}){
   return showDialog<XFile>(context: context, builder: (BuildContext context){
     return Dialog(
       insetPadding: EdgeInsets.zero,
@@ -18,6 +18,7 @@ Future<XFile?> takeFaceVideoOnDialog(BuildContext context, {Widget? scanWidget,C
             return Stack(
               children: [
                 ScanFace(
+                  changeCamera: changeCamera,
                   type: ScanFaceType.record,
                   onRecordStop: () async {
                     final result = await controller.stopVideoRecording();
@@ -55,7 +56,7 @@ Future<XFile?> takeFaceVideoOnDialog(BuildContext context, {Widget? scanWidget,C
   });
 }
 
-Future<XFile?> takeFacePictureOnDialog(BuildContext context,{Widget? scanWidget,CameraLensDirection? direction,ResolutionPreset? resolutionPreset}){
+Future<XFile?> takeFacePictureOnDialog(BuildContext context,{Widget? scanWidget,CameraLensDirection? direction,ResolutionPreset? resolutionPreset,bool changeCamera = true}){
   return showDialog<XFile>(context: context, builder: (BuildContext context){
     return Dialog(
       insetPadding: EdgeInsets.zero,
@@ -70,6 +71,7 @@ Future<XFile?> takeFacePictureOnDialog(BuildContext context,{Widget? scanWidget,
             return Stack(
               children: [
                 ScanFace(
+                  changeCamera: changeCamera,
                   onCapture: () async {
                     final result = await controller.takePicture();
                     if (context.mounted) {
@@ -103,7 +105,7 @@ Future<XFile?> takeFacePictureOnDialog(BuildContext context,{Widget? scanWidget,
   });
 }
 
-Future<XFile?> takeCardPictureOnDialog(BuildContext context,{Widget? scanWidget,CameraLensDirection? direction,ResolutionPreset? resolutionPreset}){
+Future<XFile?> takeCardPictureOnDialog(BuildContext context,{Widget? scanWidget,CameraLensDirection? direction,ResolutionPreset? resolutionPreset,bool changeCamera = true}){
   return showDialog<XFile>(context: context, builder: (BuildContext context){
     return Dialog(
       insetPadding: EdgeInsets.zero,
@@ -118,6 +120,7 @@ Future<XFile?> takeCardPictureOnDialog(BuildContext context,{Widget? scanWidget,
             return Stack(
               children: [
                 ScanCard(
+                  changeCamera: changeCamera,
                   onCapture: () async {
                     final result = await controller.takePicture();
                     if (context.mounted) {
@@ -151,7 +154,7 @@ Future<XFile?> takeCardPictureOnDialog(BuildContext context,{Widget? scanWidget,
   });
 }
 
-Future<XFile?> takeDocumentPictureOnDialog(BuildContext context,{Widget? scanWidget,CameraLensDirection? direction,ResolutionPreset? resolutionPreset}){
+Future<XFile?> takeDocumentPictureOnDialog(BuildContext context,{Widget? scanWidget,CameraLensDirection? direction,ResolutionPreset? resolutionPreset,bool changeCamera = true}){
   return showDialog<XFile>(context: context, builder: (BuildContext context){
     return Dialog(
       insetPadding: EdgeInsets.zero,
@@ -166,6 +169,7 @@ Future<XFile?> takeDocumentPictureOnDialog(BuildContext context,{Widget? scanWid
             return Stack(
               children: [
                 ScanDocument(
+                  changeCamera: changeCamera,
                   onCapture: () async {
                     final result = await controller.takePicture();
                     if (context.mounted) {

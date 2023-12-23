@@ -12,7 +12,7 @@ import 'back_widget.dart';
 enum ScanFaceType { record, capture }
 
 class ScanFace extends StatelessWidget {
-  const ScanFace({super.key, this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel, this.onRecord, this.type = ScanFaceType.capture, this.onRecordStop, this.backTap});
+  const ScanFace({super.key, this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel, this.onRecord, this.type = ScanFaceType.capture, this.onRecordStop, this.backTap, this.changeCamera = true});
 
   final ScanFaceType type;
   final VoidCallback? onCapture;
@@ -23,6 +23,7 @@ class ScanFace extends StatelessWidget {
   final ValueChanged<double> onZoom;
   final VoidCallback? backTap;
   final double? zoomLevel;
+  final bool changeCamera;
 
   @override
   Widget build(BuildContext context) {
@@ -119,9 +120,12 @@ class ScanFace extends StatelessWidget {
                   ),
                 ),
               ),
+              if(changeCamera)
               Expanded(
                 child: IconButton(onPressed: onChangeCamera, icon: const Icon(Icons.cameraswitch_outlined), color: Colors.white, iconSize: 32),
               )
+              else
+                const Spacer()
             ],
           ),
         ),

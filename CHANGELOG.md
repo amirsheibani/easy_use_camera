@@ -33,3 +33,7 @@
 ## 0.0.10
 
 * BugFix.
+
+## 0.0.11
+
+* Add control change camera

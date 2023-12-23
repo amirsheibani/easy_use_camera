@@ -7,7 +7,7 @@ import 'package:easy_use_camera/camera/widget/zoom_widget.dart';
 import 'back_widget.dart';
 
 class ScanCard extends StatelessWidget {
-  const ScanCard({super.key, required this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel, this.backTap});
+  const ScanCard({super.key, required this.onCapture, required this.onChangeCamera, required this.onFlash, required this.onZoom, this.zoomLevel, this.backTap, this.changeCamera = true});
 
   final VoidCallback onCapture;
   final VoidCallback onChangeCamera;
@@ -15,6 +15,7 @@ class ScanCard extends StatelessWidget {
   final ValueChanged<double> onZoom;
   final VoidCallback? backTap;
   final double? zoomLevel;
+  final bool changeCamera;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class ScanCard extends StatelessWidget {
                     BackWidget(
                       onTap: backTap,
                     ),
+                    const Spacer(),
                   ],
                 )
               : Row(
@@ -129,9 +131,12 @@ class ScanCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: IconButton(onPressed: onChangeCamera, icon: const Icon(Icons.cameraswitch_outlined), color: Colors.white, iconSize: 32),
-              )
+              if (changeCamera)
+                Expanded(
+                  child: IconButton(onPressed: onChangeCamera, icon: const Icon(Icons.cameraswitch_outlined), color: Colors.white, iconSize: 32),
+                )
+              else
+                const Spacer(),
             ],
           ),
         ),
