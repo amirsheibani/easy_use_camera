@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:easy_use_camera/camera/widget/back_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -29,11 +30,36 @@ class Camera extends StatelessWidget {
                 color: Colors.black,
                 width: double.maxFinite,
                 height: double.maxFinite,
-                child: Center(
-                  child: Text(
-                    "This device is not support camera",
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
-                  ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 24,),
+                    SizedBox(
+                      height: 48,
+                      width: double.maxFinite,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          BackWidget(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                          ),
+                          const Spacer(),
+                        ],
+                      )
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "This device is not support camera",
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             }
