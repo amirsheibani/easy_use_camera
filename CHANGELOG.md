@@ -37,3 +37,7 @@
 ## 0.0.11
 
 * Add control change camera
+
+## 0.0.12
+
+* Improvement camera record
