@@ -46,7 +46,10 @@ Future<XFile?> takeFaceVideoOnDialog(BuildContext context, {Widget? scanWidget,C
                   },
                 ),
                 if(scanWidget != null)
-                scanWidget,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 100.0),
+                  child: scanWidget,
+                ),
               ],
             );
           },

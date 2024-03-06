@@ -45,8 +45,15 @@ class MyHomePage extends StatelessWidget {
                 context,
                 direction: CameraLensDirection.front,
                 resolutionPreset: ResolutionPreset.low,
-                scanWidget: const Center(
-                  child: Text('PLS '),
+                scanWidget: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: double.maxFinite,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.amber.withOpacity(0.3)
+                    ),
+                  ),
                 ),
               );
               if (context.mounted && result != null) {
