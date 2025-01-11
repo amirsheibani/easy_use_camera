@@ -41,3 +41,7 @@
 ## 0.0.12
 
 * Improvement camera record
+
+## 0.0.14
+
+* update camera package to ^0.11.0+2
