@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Camera extends StatelessWidget {
-  const Camera({super.key, required this.filterBuilder, this.cameraDirection, this.resolutionPreset = ResolutionPreset.medium});
+  const Camera({super.key, required this.filterBuilder, this.cameraDirection, this.resolutionPreset});
 
   final CameraLensDirection? cameraDirection;
   final ResolutionPreset? resolutionPreset;
@@ -23,7 +23,7 @@ class Camera extends StatelessWidget {
                 cameras: snapShot.data!,
                 filterBuilder: filterBuilder,
                 cameraDirection: cameraDirection,
-                resolutionPreset: resolutionPreset,
+                resolutionPreset: resolutionPreset ?? ResolutionPreset.medium,
               );
             } else {
               return Container(
@@ -79,7 +79,7 @@ class TakePicture extends StatefulWidget {
 
   final List<CameraDescription> cameras;
   final CameraLensDirection? cameraDirection;
-  final ResolutionPreset? resolutionPreset;
+  final ResolutionPreset resolutionPreset;
   final bool? enableAudio;
 
   @override
@@ -135,7 +135,7 @@ class TakePictureState extends State<TakePicture> {
       _currentCamera = widget.cameras[_cameraIndex];
       _controller = CameraController(
         _currentCamera,
-        ResolutionPreset.medium,
+        widget.resolutionPreset,
       );
       _initializeControllerFuture = _controller.initialize();
     });

@@ -45,3 +45,7 @@
 ## 0.0.14
 
 * update camera package to ^0.11.0+2
+
+## 0.0.15
+
+* fix Resolution Preset 
